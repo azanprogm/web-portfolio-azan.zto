@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Azan portfolio</title>
+  <link rel="shortcut icon" href="gambar/hackerEMENG-removebg-preview.png" type="image/x-icon">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body class="relative min-h-screen">
+
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+
+    :root {
+      --primary: #458cb0;
+      --secondary: #2d4575;
+      --dark: #212529;
+      --light: #f8f9fa;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--light);
+      color: var(--dark);
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Hero section animations */
+    .hero-content {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 1s ease forwards;
+    }
+
+    .hero-image {
+      opacity: 0;
+      transform: scale(0.9);
+      animation: zoomIn 1s ease forwards 0.3s;
+    }
+
+    /* Floating animation */
+    @keyframes float {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-20px);
+      }
+    }
+
+    /* Keyframe animations */
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes zoomIn {
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes slideInLeft {
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes slideInRight {
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    /* Section animations */
+    section {
+      opacity: 0;
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    section.in-view {
+      opacity: 1;
+    }
+
+    /* Project card hover effect */
+    .project-card {
+      transition: all 0.3s ease;
+    }
+
+    .project-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+        0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+
+    /* Skill bar animations */
+    .skill-bar {
+      opacity: 0;
+      transform: translateX(-100%);
+      transition: transform 2s ease, opacity 0.5s ease;
+    }
+
+    .skill-bar.in-view {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* Gradient text */
+    .gradient-text {
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    /* Floating shapes */
+    .shape {
+      position: absolute;
+      opacity: 0.1;
+      z-index: -1;
+      filter: blur(50px);
+    }
+
+    .shape-1 {
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      background: linear-gradient(120deg, var(--primary), var(--secondary));
+      top: 10%;
+      left: 5%;
+      animation: float 8s ease-in-out infinite;
+    }
+
+    .shape-2 {
+      width: 400px;
+      height: 400px;
+      border-radius: 30px;
+      background: linear-gradient(45deg, var(--primary), var(--secondary));
+      bottom: 10%;
+      right: 5%;
+      animation: float 10s ease-in-out infinite 2s;
+    }
+
+    /* Glow effect */
+    .glow {
+      box-shadow: 0 0 20px rgba(58, 134, 255, 0.3);
+    }
+
+    /* Navbar animations */
+    .nav-link {
+      position: relative;
+    }
+
+    .nav-link::after {
+      content: "";
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      transition: width 0.3s ease;
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    /* Mobile menu animation */
+    .mobile-menu {
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+    }
+
+    .mobile-menu.active {
+      transform: translateX(0);
+    }
+
+    /* Dark mode toggle */
+    .toggle-switch {
+      transition: background 0.3s ease;
+    }
+
+    .toggle-circle {
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+
+    /* Contact form animations */
+    .form-input {
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .form-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(58, 134, 255, 0.2);
+    }
+
+    /* Scroll indicator */
+    .scroll-indicator {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 40px;
+      height: 60px;
+      border: 2px solid var(--primary);
+      border-radius: 20px;
+      opacity: 1;
+      transition: opacity 0.3s ease;
+    }
+
+    .scroll-indicator.hidden {
+      opacity: 0;
+    }
+
+    .scroll-indicator:after {
+      content: "";
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      width: 8px;
+      height: 8px;
+      background: var(--primary);
+      border-radius: 50%;
+      transform: translateX(-50%);
+      animation: scrollAnimation 2s infinite;
+    }
+
+    @keyframes scrollAnimation {
+      0% {
+        top: 10px;
+        opacity: 1;
+      }
+
+      100% {
+        top: 30px;
+        opacity: 0;
+      }
+    }
+  </style>
+
+  <!-- Floating background shapes -->
+  <div class="shape shape-1"></div>
+  <div class="shape shape-2"></div>
+
+  <!-- Navigation -->
+  <nav class="fixed w-full z-50 bg-white bg-opacity-90 backdrop-filter backdrop-blur-lg shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between h-16 items-center">
+        <div class="flex-shrink-0 flex items-center">
+          <span class="text-xl font-bold text-zinc-600"> EmengCTA</span>
+        </div>
+
+        <div class="hidden md:block">
+          <div class="ml-10 flex items-center space-x-8">
+            <a href="index.html" class="nav-link text-gray-800 hover:text-violet-900 px-3 py-2 text-sm font-medium"><i
+                class="fas fa-arrow-left "></i>Back</a>
+            <a href="#home" class="nav-link text-gray-800 hover:text-violet-900 px-3 py-2 text-sm font-medium">Home</a>
+            <a href="#about"
+              class="nav-link text-gray-800 hover:text-violet-900 px-3 py-2 text-sm font-medium">About</a>
+            <a href="#projects"
+              class="nav-link text-gray-800 hover:text-violet-900 px-3 py-2 text-sm font-medium">Projects</a>
+            <a href="#contact"
+              class="nav-link text-gray-800 hover:text-violet-900 px-3 py-2 text-sm font-medium">Contact</a>
+          </div>
+        </div>
+
+        <!-- Mobile menu button -->
+        <div class="md:hidden flex items-center">
+          <button id="mobileMenuButton" class="text-gray-800 hover:text-indigo-600 focus:outline-none">
+            <i class="fas fa-bars text-xl"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile menu -->
+    <div id="mobileMenu" class="mobile-menu fixed inset-y-0 right-0 max-w-xs w-full bg-white shadow-lg z-50 px-4 py-2">
+      <div class="flex justify-end p-4">
+        <button id="closeMobileMenu" class="text-gray-800 hover:text-indigo-600 focus:outline-none">
+          <i class="fas fa-times text-xl"></i>
+        </button>
+      </div>
+      <nav class="flex flex-col space-y-4 px-6 py-4">
+        <a href="index.html" class="nav-link text-gray-800 hover:text-zinc-600 text-lg font-medium">Back</a>
+        <a href="#home" class="nav-link text-gray-800 hover:text-zinc-900 text-lg font-medium">Home</a>
+        <a href="#about" class="nav-link text-gray-800 hover:text-zinc-900 text-lg font-medium">About</a>
+        <a href="#projects" class="nav-link text-gray-800 hover:text-zinc-900 text-lg font-medium">Projects</a>
+        <a href="#contact" class="nav-link text-gray-800 hover:text-zinc-900 text-lg font-medium">Contact</a>
+
+      </nav>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section id="home" class="min-h-screen flex items-center pt-16 pb-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid md:grid-cols-2 gap-12 items-center">
+        <div class="hero-content">
+          <h1 class="text-4xl md:text-6xl font-bold mb-6">
+            Hi, Im <span class="gradient-text">Azan Dwi Utama</span>
+          </h1>
+          <h2 class="text-2xl md:text-3xl font-medium mb-8 text-gray-600">
+            Student majoring in <span class="gradient-text">Computer science</span>
+          </h2>
+          <p class="text-gray-500 mb-10 text-lg leading-relaxed">
+            <span style="font-weight: 600;">starting from the words "HELLO WORD"</span> <br>
+
+            I learned coding starting in 11th grade of vocational school, I learned from 1 week to 2 weeks
+            and have mastered
+            HTML, CSS programming. If tailwindcss and JavaScript took 7/11 weeks,
+            I just mastered it. I am also learning backend such as PHP, SQL, PYTHON <br>
+
+            This website uses <span class="font-bold text-blue-800">Html, Css, JavaScript, Tailwind CSS
+            </span>programming languages.
+            <br> <br>
+            <span class="font-bold text-blue-800">but on this website there is also ai help</span> <br>
+            <span style="font-weight: 500; color: #2d4575;">Sorry the photo is not polite, I will fix
+              it</span>
+          </p>
+          <div class="flex flex-wrap gap-4">
+            <!--<a href="#contact" class="px-8 py-3 rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-medium hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
+                            Hire Me
+                        </a>-->
+            <a href="#projects"
+              class="px-8 py-3 rounded-full border-2 border-stone-950 text-zinc-900 font-medium hover:text-violet-50 hover:bg-zinc-950">
+              View project
+            </a>
+          </div>
+        </div>
+        <div class="hero-image">
+          <img src="gambar/azandutt.jpg" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="py-20 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">About <span class="gradient-text">Me</span></h2>
+        <p class="text-gray-500 max-w-3xl mx-auto">
+          about me and the experiences I have had
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-12 items-center">
+        <div class="order-2 md:order-1">
+          <h3 class="text-2xl font-bold mb-6">about me azan</h3>
+          <p class="text-gray-600 mb-6 leading-relaxed">
+            My name is Azan Dwi Utama (EmengCTA.ZTO) I am 17 years old, I am in Indonesia. I am a vocational
+            high school student majoring in TKJ (Computer Network Engineering)
+          </p>
+          <p class="text-gray-600 mb-6 leading-relaxed">
+            I didn't learn programming coding at school, I learned coding autodidactically
+            by studying online while watching YouTube, TikTok, Instagram and others. <br> <br>
+            I learned about PC assembly, installation, excel, mikrotik configuration, cisco topology at
+            school <br>
+            and I taught myself about hacking, attackers, cryptology, cyber security on KALI LINUX <br>
+            programming languages ​​that I hold <br>
+            <span class="font-bold text-blue-800">Html, JavaScript, Css, Python, tailwindcss.
+            </span> <br> <br>
+            <span style="font-weight: 600; color: rgb(95, 95, 95);">Definition of Portfolio:</span> A
+            portfolio is a document that contains information about a person's work, achievements, training,
+            skills, and work experience. In general, a portf
+            olio serves to demonstrate a person's abilities, experience, and work in the context of work,
+            education, or other fields.
+            <br><span class="font-bold text-blue-800">but on this website there is also ai help</span>
+            <!--<div class="grid grid-cols-2 gap-4 mt-8">
+                        <div class="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition">
+                            <h4 class="font-bold mb-2 text-indigo-600"><i class="fas fa-medal mr-2"></i> 5+ Years</h4>
+                            <p class="text-sm text-gray-500">Experience</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition">
+                            <h4 class="font-bold mb-2 text-indigo-600"><i class="fas fa-project-diagram mr-2"></i> 50+ Projects</h4>
+                            <p class="text-sm text-gray-500">Completed</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition">
+                            <h4 class="font-bold mb-2 text-indigo-600"><i class="fas fa-globe mr-2"></i> Worldwide</h4>
+                            <p class="text-sm text-gray-500">Clients</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition">
+                            <h4 class="font-bold mb-2 text-indigo-600"><i class="fas fa-award mr-2"></i> Certifications</h4>
+                            <p class="text-sm text-gray-500">10+</p>
+                        </div>
+                    </div>-->
+        </div>
+
+        <div class="order-1 md:order-2">
+          <img src="gambar/azanBRODWAY.jpg"
+            alt="Close-up portrait of developer smiling in casual work environment with blurred background"
+            class="w-full h-auto rounded-2xl shadow-lg" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects Section -->
+  <section id="projects" class="py-20 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">My <span class="gradient-text">Projects</span></h2>
+        <p class="text-gray-500 max-w-3xl mx-auto">
+          projects that I have worked on
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Project 1 -->
+        <div
+          class="project-card bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+          <div class="relative overflow-hidden group">
+            <img src="gambar/log daf.png" alt="Modern e-commerce dashboard interface with product analytics and charts"
+              class="w-full h-56 object-cover transition-transform duration-500 group-hover:scale-105" />
+            <div
+              class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-80 transition-opacity duration-300 flex items-end p-4">
+              <a href="project/loginv1.html" class="text-white hover:text-sky-400 font-medium">View
+                Details</a>
+            </div>
+          </div>
+          <div class="p-6">
+            <div class="flex justify-between items-start mb-2">
+              <h3 class="text-xl font-bold text-gray-800">login and register simple cool</h3>
+            </div>
+            <p class="text-gray-600 mb-4">The appearance is elegant, classic and luxurious,
+              giving a modern impression with solid blue and white color guidelines.
+            </p>
+            <div class="flex flex-wrap gap-2">
+              <span class="text-xs px-2 py-1 bg-gray-100 text-gray-700 rounded">Html</span>
+              <span class="text-xs px-2 py-1 bg-gray-100 text-gray-700 rounded">Css</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 2 -->
+        <div
+          class="project-card bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+          <div class="relative overflow-hidden group">
+            <img src="gambar/login daftar.png"
+              alt="Mobile fitness application interface showing workout statistics and progress"
+              class="w-full h-56 object-cover transition-transform duration-500 group-hover:scale-105" />
+            <div
+              class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-80 transition-opacity duration-300 flex items-end p-4">
+              <a href="project/loginv2.html" class="text-white hover:text-sky-400 font-medium">View
+                Details</a>
+            </div>
+          </div>
+          <div class="p-6">
+            <div class="flex justify-between items-start mb-2">
+              <h3 class="text-xl font-bold text-gray-800">elegant and luxurious login and register form
+              </h3>
+            </div>
+            <p class="text-gray-600 mb-4">The appearance is elegant, classic and luxurious,
+              giving a modern impression with solid blue and white color guidelines.</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="text-xs px-2 py-1 bg-gray-100 text-gray-700 rounded">Html</span>
+              <span class="text-xs px-2 py-1 bg-gray-100 text-gray-700 rounded">Css</span>
+              <span class="text-xs px-2 py-1 bg-gray-100 text-gray-700 rounded">JavaScript</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 3 -->
+        <div
+          class="project-card bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+          <div class="relative overflow-hidden group">
+            <img src="gambar/LOGINpemandangan.png"
+              alt="Creative agency website homepage with bold typography and animated elements"
+              class="w-full h-56 object-cover transition-transform duration-500 group-hover:scale-105" />
+            <div
+              class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-80 transition-opacity duration-300 flex items-end p-4">
+              <a href="project/loginv3.html" class="text-white hover:text-sky-300 font-medium">View
+                Details</a>
+            </div>
+          </div>
+          <div class="p-6">
+            <div class="flex justify-between items-start mb-2">
+              <h3 class="text-xl font-bold text-gray-800">login form and view list</h3>
+            </div>
+            <p class="text-gray-600 mb-4">simple login and register web The appearance is pleasing to the
+              eye and quite simple with a
+              blend of mountains, so that the impression created is simple and quite elegant.</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="text-xs px-2 py-1 bg-gray-100 text-gray-700 rounded">Html</span>
+              <span class="text-xs px-2 py-1 bg-gray-100 text-gray-700 rounded">Css</span>
+              <span class="text-xs px-2 py-1 bg-gray-100 text-gray-700 rounded">JavaScript</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Projects Section -->
+  <!-- photo linux vscode -->
+  <section id="projects" class="py-20 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">Photo of me <span class="gradient-text">studying</span>
+        </h2>
+        <p class="text-gray-500 max-w-3xl mx-auto">
+          my photos learning about coding and linux
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+
+        <div class="overflow-hidden">
+          <div class="relative overflow-hidden group">
+            <img src="gambar/kali kali.jpg"
+              class="w-full h-56 object-cover transition-transform duration-500 group-hover:scale-105" />
+          </div>
+        </div>
+
+        <div class="overflow-hidden">
+          <div class="relative overflow-hidden group">
+            <img src="gambar/linuxx kali.jpg"
+              class="w-full h-56 object-cover transition-transform duration-500 group-hover:scale-105" />
+          </div>
+        </div>
+
+        <div class="overflow-hidden">
+          <div class="relative overflow-hidden group">
+            <img src="gambar/wifikalinux.jpg"
+              class="w-full h-56 object-cover transition-transform duration-500 group-hover:scale-105" />
+          </div>
+        </div>
+
+        <div class="overflow-hidden">
+          <div class="relative overflow-hidden group">
+            <img src="gambar/portfolio v2 azan.jpg"
+              class="w-full h-56 object-cover transition-transform duration-500 group-hover:scale-105" />
+          </div>
+        </div>
+
+        <div class="overflow-hidden">
+          <div class="relative overflow-hidden group">
+            <img src="gambar/codg.jpg"
+              class="w-full h-56 object-cover transition-transform duration-500 group-hover:scale-105" />
+          </div>
+        </div>
+
+        <div class="overflow-hidden">
+          <div class="relative overflow-hidden group">
+            <img src="gambar/personal v1 azan.jpg"
+              class="w-full h-56 object-cover transition-transform duration-500 group-hover:scale-105" />
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Contact Section -->
+  <section id="contact" class="py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">You can contact <span class="gradient-text">me</span>
+        </h2>
+        <p class="text-gray-500 max-w-3xl mx-auto">
+          you can contact me via email or phone number
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-12">
+        <div>
+          <h3 class="text-2xl font-bold mb-8">Contact Information</h3>
+
+          <div class="space-y-6">
+            <div class="flex items-start">
+              <div
+                class="flex-shrink-0 h-10 w-10 rounded-full bg-indigo-50 flex items-center justify-center text-zinc-800 mr-4">
+                <i class="fas fa-envelope"></i>
+              </div>
+              <div>
+                <h4 class="text-lg font-medium text-gray-800 mb-1">Email</h4>
+                <a href="mailto:azan211107@gmail.com"
+                  class="text-gray-600 hover:text-indigo-600 transition">azan211107@gmail.com</a>
+              </div>
+            </div>
+
+            <div class="flex items-start">
+              <div
+                class="flex-shrink-0 h-10 w-10 rounded-full bg-indigo-50 flex items-center justify-center text-zinc-800 mr-4">
+                <i class="fas fa-phone"></i>
+              </div>
+              <div>
+                <h4 class="text-lg font-medium text-gray-800 mb-1">Phone</h4>
+                <a href="tel:+6285745358577" class="text-gray-600 hover:text-indigo-800 transition">+62
+                  857-4535-8577</a>
+              </div>
+            </div>
+
+            <div class="flex items-start">
+              <div
+                class="flex-shrink-0 h-10 w-10 rounded-full bg-indigo-50 flex items-center justify-center text-zinc-800 mr-4">
+                <i class="fas fa-map-marker-alt"></i>
+              </div>
+              <div>
+                <h4 class="text-lg font-medium text-gray-800 mb-1">Location</h4>
+                <address class="text-gray-600 not-italic">Tangerang kota, Indonesia</address>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-10">
+            <h3 class="text-2xl font-bold mb-6">Follow Me</h3>
+            <div class="flex space-x-4">
+              <a href="https://github.com/AzanGampro"
+                class="h-12 w-12 rounded-full bg-indigo-50 flex items-center justify-center text-stone-950 hover:bg-zinc-900 hover:text-white transition">
+                <i class="fab fa-github text-xl"></i>
+              </a>
+              <a href="https://t.me/EmengCTA"
+                class="h-12 w-12 rounded-full bg-indigo-50 flex items-center justify-center text-stone-950 hover:bg-zinc-900 hover:text-white transition">
+                <i class="fab fa-telegram text-xl"></i>
+              </a>
+              <a href="https://www.facebook.com/azan.455732"
+                class="h-12 w-12 rounded-full bg-indigo-50 flex items-center justify-center text-stone-950 hover:bg-zinc-900 hover:text-white transition">
+                <i class="fab fa-facebook text-xl"></i>
+              </a>
+              <a href="https://www.instagram.com/niuy80s?igsh=cWNhcm4xYmtxdnZn"
+                class="h-12 w-12 rounded-full bg-indigo-50 flex items-center justify-center text-stone-950 hover:bg-zinc-900 hover:text-white transition">
+                <i class="fab fa-instagram text-xl"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-lg p-8">
+          <h3 class="text-2xl font-bold mb-8">Send Me a Message</h3>
+          <form id="contactForm">
+            <div class="grid md:grid-cols-2 gap-6 mb-6">
+              <div>
+                <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Your Name</label>
+                <input type="text" id="name" name="name" required
+                  class="form-input w-full px-4 py-3 rounded-lg border border-gray-30 focus:outline-none focus:border-indigo-500">
+              </div>
+              <div>
+                <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Your
+                  Email</label>
+                <input type="email" id="email" name="email" required
+                  class="form-input w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:border-indigo-500">
+              </div>
+            </div>
+            <div class="mb-6">
+              <label for="subject" class="block text-sm font-medium text-gray-700 mb-1">Subject</label>
+              <input type="text" id="subject" name="subject" required
+                class="form-input w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:border-indigo-500">
+            </div>
+            <div class="mb-8">
+              <label for="message" class="block text-sm font-medium text-gray-700 mb-1">Your
+                Message</label>
+              <textarea id="message" name="message" rows="5" required
+                class="form-input w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:border-indigo-500"></textarea>
+            </div>
+            <button type="submit"
+              class="w-full px-6 py-3 rounded-lg bg-gradient-to-r from-zinc-900 to-slate-800 text-white font-medium transition-all duration-300">
+              Send Message
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="py-12 bg-gray-900 text-gray-400">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid md:grid-cols-3 gap-8 items-center">
+        <div class="text-center md:text-left">
+          <span class="text-xl font-bold text-white">Portfolio azan</span>
+          <p class="mt-2 text-sm">©2025 Azandwiutama EmengCTA.ZTO</p>
+          <p class="mt-2 text-xs">I created this website as a result of
+            my hard work for 1/2 weeks studying programming
+            languages, which I taught myself at home. <br><br>
+            but on this website there is also ai help </p>
+        </div>
+
+        <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-8">
+          <a href="index.html" class="hover:text-white transition">Back</a>
+          <a href="#home" class="hover:text-white transition">Home</a>
+          <a href="#about" class="hover:text-white transition">About</a>
+          <a href="#projects" class="hover:text-white transition">Projects</a>
+          <a href="#contact" class="hover:text-white transition">Contact</a>
+        </div>
+
+        <div class="text-center md:text-right">
+          <div class="flex justify-center md:justify-end space-x-4">
+            <a href="https://github.com/AzanGampro"
+              class="h-10 w-10 rounded-full bg-gray-800 flex items-center justify-center sh text-gray-300 hover:text-white transition">
+              <i class="fab fa-github text-lg"></i>
+            </a>
+            <a href="https://www.instagram.com/niuy80s?igsh=cWNhcm4xYmtxdnZn"
+              class="h-10 w-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-300 hover:text-white transition">
+              <i class="fab fa-instagram text-lg"></i>
+            </a>
+            <a href="https://t.me/EmengCTA"
+              class="h-10 w-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-300 hover:text-white transition">
+              <i class="fab fa-telegram text-lg"></i>
+            </a>
+            <a href="https://www.facebook.com/azan.455732"
+              class="h-10 w-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-300 hover:text-white transition">
+              <i class="fab fa-facebook text-lg"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu toggle
+    const mobileMenuButton = document.getElementById('mobileMenuButton');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const closeMobileMenu = document.getElementById('closeMobileMenu');
+
+    mobileMenuButton?.addEventListener('click', () => {
+      mobileMenu.classList.add('active');
+    });
+
+    closeMobileMenu?.addEventListener('click', () => {
+      mobileMenu.classList.remove('active');
+    });
+
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+
+        if (mobileMenu.classList.contains('active')) {
+          mobileMenu.classList.remove('active');
+        }
+
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth'
+        });
+      });
+    });
+
+    // Scroll indicator visibility
+    const scrollIndicator = document.getElementById('scrollIndicator');
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 100) {
+        scrollIndicator.classList.add('hidden');
+      } else {
+        scrollIndicator.classList.remove('hidden');
+      }
+    });
+
+    // Form submission
+    const contactForm = document.getElementById('contactForm');
+
+    contactForm?.addEventListener('submit', function (e) {
+      e.preventDefault();
+      alert('Thank you for your message! I will get back to you soon.');
+      this.reset();
+    });
+
+    // Intersection Observer for section animations
+    const sections = document.querySelectorAll('section');
+
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -100px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+
+          // Animate skill bars
+          if (entry.target.id === 'skills') {
+            const skillBars = document.querySelectorAll('.skill-bar');
+            skillBars.forEach(bar => {
+              bar.classList.add('in-view');
+            });
+          }
+        }
+      });
+    }, observerOptions);
+
+    sections.forEach(section => {
+      observer.observe(section);
+    });
+
+    // Initialize animations on page load
+    window.addEventListener('load', () => {
+      document.querySelector('.hero-content').style.animationPlayState = 'running';
+      document.querySelector('.hero-image').style.animationPlayState = 'running';
+    });
+  </script>
+
+</body>
+
+</html>
